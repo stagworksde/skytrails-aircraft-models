@@ -1,0 +1,29 @@
+{
+  "name": "skytrails-aircraft-models",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Builds low-poly, livery-free aircraft GLBs for the Skytrails map from FlightGear's AI traffic models.",
+  "license": "MIT AND GPL-2.0-only",
+  "type": "module",
+  "scripts": {
+    "fetch": "bun run scripts/fetch-fgdata.ts",
+    "build": "bun run src/build.ts",
+    "inspect": "bun run scripts/inspect.ts",
+    "serve": "bun run scripts/serve.ts",
+    "snapshot": "bun run scripts/snapshot.ts",
+    "release": "bun run scripts/release.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/functions": "^4.5.0",
+    "fast-xml-parser": "^5.11.1",
+    "meshoptimizer": "^1.2.0"
+  },
+  "devDependencies": {
+    "bun-types": "^1.4.2",
+    "three": "^0.186.1",
+    "typescript": "^7.0.2"
+  }
+}
