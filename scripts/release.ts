@@ -4,7 +4,7 @@
 //   bun run build && bun run scripts/release.ts --publish   # really creates the release
 //   ... --prerelease                                        # publish, but not as `latest`
 //
-// One release carries every GLB and manifest.json as assets, so the app can
+// One release carries every GLB, every icon (`bun run icons`) and manifest.json as assets, so the app can
 // load `<repo>/releases/latest/download/manifest.json` and every file it names.
 // A release must always hold the complete set: `latest` points at the newest
 // one, so never upload only the changed models.
@@ -35,7 +35,7 @@ const manifest = await Bun.file('out/manifest.json').json();
 const built = new Set(await readdir('out/models'));
 const named = new Set<string>();
 for (const [id, m] of Object.entries<any>(manifest.models)) {
-  for (const [file, sha] of [[m.file, m.sha256], [m.strobeFile, m.strobeSha256]] as const) {
+  for (const [file, sha] of [[m.file, m.sha256], [m.strobeFile, m.strobeSha256], [m.iconFile, m.iconSha256]] as const) {
     if (!file) continue;
     named.add(file);
     if (!built.has(file)) {

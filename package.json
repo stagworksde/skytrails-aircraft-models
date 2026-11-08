@@ -11,6 +11,7 @@
     "inspect": "bun run scripts/inspect.ts",
     "serve": "bun run scripts/serve.ts",
     "snapshot": "bun run scripts/snapshot.ts",
+    "icons": "bun run scripts/icons.ts",
     "release": "bun run scripts/release.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit"

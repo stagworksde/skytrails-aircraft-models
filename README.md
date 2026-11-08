@@ -61,6 +61,7 @@ bun run build [id…]    # build into out/, write out/manifest.json and out/cont
 bun test
 bun run typecheck
 bun run snapshot       # render the built GLBs for real (three.js, headless Chromium) → out/snapshot.png
+bun run icons          # side-view PNG per model → out/models/ac_<id>_icon-<hash>.png, named in the manifest
 bun run inspect sources/fgdata/A380/Models/388.ac   # list a model's objects before configuring it
 bun run serve          # serve out/ on :8788 for a device on the LAN
 bun run release        # check and print the gh release command (dry run); --publish creates it
@@ -68,9 +69,11 @@ bun run release        # check and print the gh release command (dry run); --pub
 
 Always review `out/snapshot.png` (the real render: textures, lights) and `out/contact_sheet.png` (geometry and paint classes) before a release. It shows every model from above, the side and the front: check that the gear is gone, the lights are on the tips, the fin is painted and the prop discs are in place.
 
+The icons are what the app shows where it cannot draw 3D (the Live Activity, the Android flight notification). They are renders of the GPL models, so they are release assets like the GLBs and are never bundled with the app. `bun run build` clears them: run `bun run icons` after every build, or the release check fails. `bun run icons --shapes ../skylog/assets/models --out <dir>` renders the app's own four shapes the same way; those are the app's to bundle.
+
 ## Releasing
 
-1. Bump `version` in `package.json`, `bun run fetch && bun run build`, review `out/snapshot.png` and `out/contact_sheet.png`.
+1. Bump `version` in `package.json`, `bun run fetch && bun run build && bun run icons`, review `out/snapshot.png` and `out/contact_sheet.png`.
 2. Commit and push. The release source archive is the git tree at the tag, so `sources/fgdata/` must be committed.
 3. `bun run release` is a dry run: it checks that every manifest file exists and matches its sha256, the tree is clean, HEAD is pushed and the tag is free.
 4. `bun run release -- --publish` creates the release (add `--prerelease` to keep it out of `latest`).
