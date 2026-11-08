@@ -46,7 +46,7 @@ export interface ModelSpec {
 /** fgdata commit every model is pinned to (gitlab.com/flightgear/fgdata). */
 export const FGDATA_COMMIT = 'd96d5702c3bdeab4befb57b07079c3b4fad2dcce';
 
-export const models: ModelSpec[] = [
+const allModels: ModelSpec[] = [
   // ── Light aircraft ──
   // Also the Cessna 152: same high-wing layout, a size smaller.
   {
@@ -468,3 +468,9 @@ export const models: ModelSpec[] = [
     budget: 2000,
   },
 ];
+
+// Held back until a lawyer has checked design rights on the youngest
+// airliners (first shown 2013). The app draws them with the jet shape.
+export const withheldIds = new Set(['a220', 'a359']);
+
+export const models = allModels.filter((m) => !withheldIds.has(m.id));
