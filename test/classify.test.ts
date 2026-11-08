@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { classify, classifyName, type PartClass } from '../src/classify';
+import { classify, classifyName, removedClassesFor, type PartClass } from '../src/classify';
 
 const none = { gear: new Set<string>(), overrides: {} };
 
@@ -105,4 +105,10 @@ describe('classify', () => {
   test('unmatched names are body', () => {
     expect(classify([], 'Body', none)).toBe('body');
   });
+});
+
+test('fixed gear is kept, everything else still removed', () => {
+  expect(removedClassesFor(false).has('gear')).toBe(true);
+  expect(removedClassesFor(true).has('gear')).toBe(false);
+  expect(removedClassesFor(true).has('prop')).toBe(true);
 });

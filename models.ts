@@ -41,6 +41,8 @@ export interface ModelSpec {
   textureMasks?: Record<string, [number, number, number, number][]>;
   /** Longest edge of the output textures, px (default 1024). */
   textureSize?: number;
+  /** The gear never retracts, so it is kept instead of removed. */
+  fixedGear?: boolean;
 }
 
 /** fgdata commit every model is pinned to (gitlab.com/flightgear/fgdata). */
@@ -51,6 +53,7 @@ const allModels: ModelSpec[] = [
   // Also the Cessna 152: same high-wing layout, a size smaller.
   {
     id: 'c172',
+    fixedGear: true,
     folder: 'c172',
     ac: 'Models/c172p.ac',
     mainXml: 'c172-default.xml',
@@ -62,6 +65,7 @@ const allModels: ModelSpec[] = [
   },
   {
     id: 'pa18',
+    fixedGear: true,
     folder: 'Cub',
     ac: 'Models/Cub.ac',
     mainXml: 'Cub-default.xml',
@@ -73,6 +77,7 @@ const allModels: ModelSpec[] = [
   },
   {
     id: 'c182',
+    fixedGear: true,
     folder: 'c182',
     ac: 'Models/c182.ac',
     mainXml: 'c182-default.xml',
@@ -88,6 +93,7 @@ const allModels: ModelSpec[] = [
   },
   {
     id: 'c208',
+    fixedGear: true,
     folder: 'Cessna208Caravan',
     ac: 'Models/caravan.ac',
     mainXml: 'Cessna208Caravan-default.xml',
@@ -111,6 +117,7 @@ const allModels: ModelSpec[] = [
   },
   {
     id: 'dr40',
+    fixedGear: true,
     folder: 'DR400',
     ac: 'Models/dr400.ac',
     mainXml: 'DR400-default.xml',
@@ -160,6 +167,7 @@ const allModels: ModelSpec[] = [
   // High-wing microlights.
   {
     id: 'fk9',
+    fixedGear: true,
     folder: 'FK9MK2',
     ac: 'Models/fk9mk2.ac',
     mainXml: 'Models/fk9mk2-ai.xml',

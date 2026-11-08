@@ -23,7 +23,7 @@ Our GPL obligations are met here:
 
 1. **Parse** the AC3D file and the model XML: gear `select` animations, `*-NavLights.xml` light positions.
 2. **Classify** objects by name (`src/classify.ts`). Ancestors pass removal down, so every child of a `Gear` group is gear.
-3. **Remove** gear, interior, propeller blades and light objects. Read no animation.
+3. **Remove** gear, interior, propeller blades and light objects. Read no animation. Fixed gear (`fixedGear` in `models.ts`: C172, Cub, C182, Caravan, DR400, FK9) is kept, since it is out in flight too.
 4. **Paint** in three tones: body, accent (fin and engines) and glass. Newer AI models are one merged mesh, so there the fin is found geometrically: what rises above the fuselage roof, aft, on the centreline.
    - **Texture:** each model keeps FlightGear's neutral **default paint** (`Textures/Default`: white, with windows, cockpit windows, doors and engine fans), because without it an airliner is an anonymous white tube. The tones multiply it, so the details stay dark under any livery tint.
    - **No airline liveries.** Branding a default scheme still carries is painted over via `textureMasks` in `models.ts` (the 737's "Gooneybird" wordmark).
@@ -67,7 +67,7 @@ bun run serve          # serve out/ on :8788 for a device on the LAN
 bun run release        # check and print the gh release command (dry run); --publish creates it
 ```
 
-Always review `out/snapshot.png` (the real render: textures, lights) and `out/contact_sheet.png` (geometry and paint classes) before a release. It shows every model from above, the side and the front: check that the gear is gone, the lights are on the tips, the fin is painted and the prop discs are in place.
+Always review `out/snapshot.png` (the real render: textures, lights) and `out/contact_sheet.png` (geometry and paint classes) before a release. It shows every model from above, the side and the front: check that retractable gear is gone and fixed gear is there, the lights are on the tips, the fin is painted and the prop discs are in place.
 
 The icons are what the app shows where it cannot draw 3D (the Live Activity, the Android flight notification). They are renders of the GPL models, so they are release assets like the GLBs and are never bundled with the app. `bun run build` clears them: run `bun run icons` after every build, or the release check fails. `bun run icons --shapes ../skylog/assets/models --out <dir>` renders the app's own four shapes the same way; those are the app's to bundle.
 

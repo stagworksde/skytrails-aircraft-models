@@ -12,7 +12,7 @@ export type PartClass =
   /** Fin and engines, painted in the livery accent tone. */
   | 'accent'
   | 'glass'
-  /** Removed: the map draws aircraft in flight. */
+  /** Removed, unless the model's gear is fixed: the map draws aircraft in flight. */
   | 'gear'
   /** Removed: invisible from outside, costs triangles. */
   | 'interior'
@@ -100,3 +100,10 @@ export const removedClasses: ReadonlySet<PartClass> = new Set([
   'light',
   'drop',
 ]);
+
+const removedWithFixedGear: ReadonlySet<PartClass> = new Set([...removedClasses].filter((c) => c !== 'gear'));
+
+/** What a model loses. Fixed gear stays (painted body): it is out in flight too. */
+export function removedClassesFor(fixedGear = false): ReadonlySet<PartClass> {
+  return fixedGear ? removedWithFixedGear : removedClasses;
+}

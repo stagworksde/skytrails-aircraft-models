@@ -8,7 +8,7 @@ import { existsSync } from 'node:fs';
 import { MeshoptSimplifier } from 'meshoptimizer';
 import type { ModelSpec } from '../models';
 import { parseAc3d } from './ac3d';
-import { classify, finName, removedClasses, type PartClass } from './classify';
+import { classify, finName, removedClassesFor, type PartClass } from './classify';
 import { gearObjectNames, lightPositions, type Light, type LightKind } from './fgxml';
 import {
   acToGltf,
@@ -126,7 +126,8 @@ export async function processModel(spec: ModelSpec, sourceDir: string): Promise<
     objects.push({ name: o.name, path: o.path, cls, tris: count, defaulted });
   });
 
-  const kept = tris.filter((t) => !removedClasses.has(t.cls));
+  const removed = removedClassesFor(spec.fixedGear);
+  const kept = tris.filter((t) => !removed.has(t.cls));
   if (kept.length === 0) throw new Error(`${spec.id}: nothing left after removing parts`);
   const box = bounds(kept.flatMap((t) => [t.a, t.b, t.c]));
   const size = {

@@ -17,6 +17,7 @@ import { emitMain, emitStrobe, type Provenance } from './emit';
 import { prepareTexture, type PreparedTexture } from './textures';
 import { contactSheet } from './preview';
 import { processModel, type ProcessedModel } from './process';
+import { removedClassesFor } from './classify';
 import { validate } from './validate';
 
 const SOURCES = 'sources/fgdata';
@@ -62,7 +63,7 @@ function provenance(spec: ModelSpec, authors: { modellers: string[]; contributor
         by: 'skytrails-aircraft-models',
         date: new Date().toISOString().slice(0, 10),
         changes:
-          'Converted from AC3D to glTF. Landing gear, interior, propeller blades and light objects removed; ' +
+          `Converted from AC3D to glTF. ${spec.fixedGear ? 'Interior' : 'Landing gear, interior'}, propeller blades and light objects removed; ` +
           'mesh simplified; airline liveries replaced by FlightGear\'s neutral default paint (branding masked), ' +
           'tinted in three tones; nav/strobe/beacon lights and propeller discs added.',
       },
@@ -103,7 +104,8 @@ for (const spec of specs) {
   await Bun.write(`${OUT}/models/${mainFile}`, main);
   await Bun.write(`${OUT}/models/${strobeFile}`, strobe);
 
-  const removed = model.objects.filter((o) => o.cls !== 'body' && o.cls !== 'accent' && o.cls !== 'glass');
+  const removedSet = removedClassesFor(spec.fixedGear);
+  const removed = model.objects.filter((o) => removedSet.has(o.cls));
   const defaulted = model.objects.filter((o) => o.defaulted).map((o) => o.name || '(unnamed)');
   console.log(
     `\n${spec.id.padEnd(8)} ${model.trisBefore} → ${model.trisAfter} tris  ` +
