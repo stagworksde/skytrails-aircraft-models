@@ -1,6 +1,6 @@
 {
   "name": "skytrails-aircraft-models",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Builds low-poly, livery-free aircraft GLBs for the Skytrails map from FlightGear's AI traffic models.",
   "license": "MIT AND GPL-2.0-only",
